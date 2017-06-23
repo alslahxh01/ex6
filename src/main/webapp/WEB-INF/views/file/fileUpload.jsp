@@ -11,15 +11,21 @@
 <script type="text/javascript">
 $(function(){
 		var count= 0;		
+		var name = 0;
 	$("#add").click(function(){
+		if(count <5){
 		count ++;
-		if(count <6){
-		var dd = "<p><input type=file name='f1'><span id='x"+count+"'>X</span>  </p>";	
+		name ++;
+		var dd='<p><input type="file" name="f'+name+'"><span class="del">X</span></p>';	
 		$("#file").append(dd);
 }else{
 	alert("최대 5개 가능");
 }
 	});
+	$("#file").on("click",".del",function(){
+		$(this).parent().remove();
+			count--;
+		});
 	
 });
 </script>
@@ -27,6 +33,8 @@ $(function(){
 
 </head>
 <body>
+
+<h2>단일 파일 업로드 @@@@@@@@@@@@@@@</h2>
 <form action="fileUpload" enctype="multipart/form-data" method="post">
 
 <input type="text" name="name">
@@ -56,26 +64,19 @@ $(function(){
 <h2>이름같고 갯수 유동적인 폼</h2>
 <hr>
 <!--파라미터 이름 없고 갯수 유동적이게 넘어가는 폼  -->
-<form action="Upload" enctype="multipart/form-data" method="post">
+<form action="upload" enctype="multipart/form-data" method="post">
 
 <input type="text" name="name">
 <div id="file">
 
 </div>
 <input type="button" id="add" value="파일추가">
+<button>UPLOAD</button>
 </form>
 
 
 </body>
-<script type="text/javascript">
-<script type="text/javascript">
-$(function(){
-$("#x1").click(function(){
-	alert("Dd");
-});
-});
-</script>
 
-</script>
+
 
 </html>
