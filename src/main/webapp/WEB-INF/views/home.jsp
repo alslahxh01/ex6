@@ -7,6 +7,9 @@
 <body>
 <a href="notice/noticeList">GOGOGOGOGOGOGOGO</a>
 
+<hr>
+<a href="memo/memoList">Memo List gogosing</a>
+
 <h1>
 	Hello world!  
 </h1>

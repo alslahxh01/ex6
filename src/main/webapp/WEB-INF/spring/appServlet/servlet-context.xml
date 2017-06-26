@@ -20,9 +20,8 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 		<beans:property name="order"  value="1"></beans:property> <!-- value 값에 따라 실행 순서가 정해진다. -->
-			
-			
 	</beans:bean>
+	
 	<!-- 이 클래스 뷰 만들고 Internal 리졸버가 아닌 얘를 먼저 실행시키게 하는 코드를 작성해야함 -->
 	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 	<beans:property name="order"  value="0"></beans:property> <!-- 우선 실행하게 하기 위한 코드 -->
@@ -31,10 +30,8 @@
 	<beans:bean class="com.choa.file.Download" id="download"> <!-- 아이디는 셋 뷰네임이랑 같아야함 -->
 
 	</beans:bean>
-	
-	
+<!-- 스캔 범위 지정 -->
 <context:component-scan base-package="com.choa.ex6" />
-
 <context:component-scan base-package="com.choa.notice" />
-
+<context:component-scan base-package="com.choa.memo" />
 </beans:beans>

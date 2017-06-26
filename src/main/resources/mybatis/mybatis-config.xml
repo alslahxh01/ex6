@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- mybatis 설정파일 xml -->
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+  <configuration>
+  <typeAliases>
+ 	<typeAlias type="com.choa.notice.NoticeDTO" alias="NoticeDTO"/>
+ 	<!-- 해당 풀패키지명을 NoticeDTO 라고 약어로 만들어줌 --> 
+ 	<!-- 만든 파일을 연결시켜야함. -->
+  </typeAliases>  
+  </configuration>

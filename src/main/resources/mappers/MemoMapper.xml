@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- Mapper 파일 입니다 라고 셋팅시킴. -->
+  
+  <mapper namespace="MemoMapper" >
+
+ <sql id="search">
+  <trim prefix="where" prefixOverrides="and // or"> <!-- where 조건에 걸리지 않다면 where를 사용하지 않겠다는 코드 -->
+	<if test="search == 'title'">
+	title like '%' || #{find} || '%'
+	</if>
+	<if test="search == 'writer'">
+	writer like '%' || #{find} || '%'
+	</if> 
+	<if test="search == 'contents'">
+	contents like '%' || #{find} || '%'
+	</if>
+	</trim>
+  </sql>
+
+
+
+  <!-- List -->
+  <select id="memoList" resultType="com.choa.memo.MemoDTO" parameterType="com.choa.util.ListInfo">
+  select * from (select rownum R,M.* from(select * from memo2
+ <include refid="search"></include>  
+   order by num desc) M) where R between #{startRow} and #{lastRow}
+  </select>
+  <!-- VIew -->
+  <select id="memoView" resultType="com.choa.memo.MemoDTO" parameterType="java.lang.Integer">
+  select * from memo2 where num = #{num}
+  </select>
+  <!-- Write-->
+  <insert id="memoWrite" parameterType="com.choa.memo.MemoDTO">
+  insert into memo2 values(memo_seq.nextVal,#{writer},#{contents},sysdate)
+  </insert>
+ <!-- update --> 
+  <update id="memoUpdate" parameterType="com.choa.memo.MemoDTO">
+  update memo2 set writer = #{writer}, contents=#{contents} where num = #{num}
+  </update>
+  
+  <!-- delete -->
+  <delete id="memoDelete" parameterType="java.lang.Integer">
+  delete memo2 where num = #{num}
+  </delete>
+  
+  <!-- count -->
+	<select id="memoCount" resultType="java.lang.Integer" parameterType="com.choa.util.ListInfo">
+	select nvl(count(num),0) from memo2
+	<include refid="search"></include>
+	</select>
+  </mapper>
+
