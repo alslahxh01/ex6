@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -22,6 +24,9 @@
 		<beans:property name="order"  value="1"></beans:property> <!-- value 값에 따라 실행 순서가 정해진다. -->
 	</beans:bean>
 	
+	
+	
+	
 	<!-- 이 클래스 뷰 만들고 Internal 리졸버가 아닌 얘를 먼저 실행시키게 하는 코드를 작성해야함 -->
 	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 	<beans:property name="order"  value="0"></beans:property> <!-- 우선 실행하게 하기 위한 코드 -->
@@ -30,8 +35,26 @@
 	<beans:bean class="com.choa.file.Download" id="download"> <!-- 아이디는 셋 뷰네임이랑 같아야함 -->
 
 	</beans:bean>
+	<beans:bean class="com.choa.aspect.TestInterceptor" id="testInterceptor"></beans:bean>
+<interceptors>
+	<interceptor>
+		<mapping path="/notice/*"/>
+		<mapping path="/freeboard/*"/>
+		<!-- 매핑 여러개 가능하다. -->
+		<!-- 	<exclude-mapping path=""/> 이거는 제외하고 라는뜻 -->
+		<beans:ref bean="testInterceptor"/>
+	</interceptor>
+</interceptors>
+
 <!-- 스캔 범위 지정 -->
 <context:component-scan base-package="com.choa.ex6" />
 <context:component-scan base-package="com.choa.notice" />
 <context:component-scan base-package="com.choa.memo" />
+<context:component-scan base-package="com.choa.aspect" />
+<context:component-scan base-package="com.choa.table" />
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+<!-- AOP 에 속해있는 Annotation 들은 인식을 일반 스캔 시 못한다
+무언가로 스캔을 한번 더 써줘야함. root-context 에서 <aop:aspectj-autoproxy></aop:aspectj-autoproxy> 설정
+
+ -->
 </beans:beans>

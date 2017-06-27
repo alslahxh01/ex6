@@ -2,9 +2,44 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
+	
+	
+	
+	
+	<!-- 공통 로직   -->
+<!-- 	<bean class="com.choa.aspect.CardCheck" id="cardCheck" /> 객체만들어놓고 -->
+<!-- 	<bean class="com.choa.aspect.Transport" id="trasport" /> 화살표 표시가 around 로 이 클래스에 적용시켰다는 뜻 -->
+<!-- 	<bean class="com.choa.aspect.Trip" id="trip" /> -->
+	<!-- AOP 설정하기 -->
+<!-- 	<aop:config> -->
+<!-- 	<aop:aspect id="cardAspect" ref="cardCheck"> 공통관심 사항 카드체크 -->
+	
+<!-- 	<aop:pointcut expression="execution(* com.choa.aspect..Transport.*(..))" id="trans"/> -->
+<!-- 	              표현식                              트렌스포트.java 안에 모든 메서드() 매개변수 없는것 -->
+<!-- 													 (..) 매개변수가 있든 없든 몇개든 상관없다는 식 -->
+<!--	.. : 하위의 모든 디렉토리 
+		*() : 하위의 모든 메서드
+ 		(..): 있든 없든 상관없이 모든 매개변수
+	 -->
+	
+	 <!-- 전 후로 다 실행하기 위해서 around -->
+	<!-- 핵심기능 안에 어떤 메서드를 적용시킬 것인지 쓰자 --> 
+<!-- 	<aop:around method="check" pointcut-ref="trans"/> -->
+<!-- 	</aop:aspect> -->
+<!--@@@@@@@@@@@@@@@@@@@@@@@  새로운 aspect @@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- 	<aop:aspect id="cardReserve" ref="cardCheck"> -->
+<!-- 	<aop:pointcut expression="execution(* com.choa.aspect..Trip.*(..))" id="reserve"/> -->
+<!-- 	<aop:before method="reservation" pointcut-ref="reserve"/> -->
+<!-- 	</aop:aspect> -->
+<!-- 	</aop:config> -->
+	
+	<!-- AOP 전용 Annotation 스캔 자동으로 한다. -->
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
 		<!-- myBatis.property 파일  -->

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- Mapper 파일 입니다 라고 셋팅시킴. -->
+  
+  <mapper namespace="TableMapper" >
+			<insert id="insertTableA" parameterType="com.choa.table.TableADTO">
+			insert into tablea values(#{num},#{title},#{writer})
+			</insert>
+			<insert id="insertTableB" parameterType="com.choa.table.TableBDTO">
+			insert into tableb values(#{num},#{writer},#{point})
+			</insert>
+			
+  </mapper>
+

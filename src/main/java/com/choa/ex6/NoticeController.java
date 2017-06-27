@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,12 +33,13 @@ public class NoticeController {
 	//List
 @RequestMapping(value="noticeList" , method=RequestMethod.GET )
 	public String noticeList(Model model, ListInfo listInfo) throws Exception{
-	
+			//Exception 처리 Spring Container 가 처리 한다.
 	//1. curPage null 처리하기 - getter 에서 널이면 1 초기값 세팅
-		System.out.println(listInfo.getCurPage());
 	//2.Mapper 로 갈 때 4가지변수 한꺼번에 ㄱㄱ search,find, startRow,lastRow 
 	
 		List<BoardDTO> ar =noticeService.boardList(listInfo);
+		System.out.println(ar.get(1000).getTitle());
+		//throws new IndexOutOfBoundsException() 가 숨어있다.
 		//얘를 noticeList.jsp 에 보내야한다
 	
 		model.addAttribute("list",ar); //ArrayList
@@ -61,7 +64,6 @@ public String noiceView(Model model, Integer num) throws Exception{
 		model.addAttribute("board", "notice");
 		
 		return "board/boardWrite";
-			
 	}
 	//write(DB)
 	@RequestMapping(value="noticeWrite" , method=RequestMethod.POST )
@@ -120,4 +122,11 @@ public String noiceView(Model model, Integer num) throws Exception{
 	return "redirect:noticeList?curPage=1";
 				//if
 	}
+	
+	//Controller 자체에 Exception 메서드 만들어도 됨. 하지만 비효율적 ControllerAdvice 를 사용하자
+//	@ExceptionHandler(Exception.class)
+//	public String exception(){
+//		
+//		return "error/notFound";
+//	}
 }
