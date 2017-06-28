@@ -5,15 +5,15 @@
 	<title>Home</title>
 </head>
 <body>
-<a href="notice/noticeList">GOGOGOGOGOGOGOGO</a>
-
-<hr>
-<a href="memo/memoList">Memo List gogosing</a>
-
 <h1>
-	Hello world!
+	Hello world!  
 </h1>
-<input type="number" min="10" max="100" multiple="multiple" >
+
+d
+
+s
+srhf
+shrfsfhrhfsdh
 <P>  The time on the server is ${serverTime}. </P>
 </body>
 </html>
