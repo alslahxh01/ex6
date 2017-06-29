@@ -1,8 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 	
+	
+	
+	
+	
+	<!-- 공통 로직   -->
+<!-- 	<bean class="com.choa.aspect.CardCheck" id="cardCheck" /> 객체만들어놓고 -->
+<!-- 	<bean class="com.choa.aspect.Transport" id="trasport" /> 화살표 표시가 around 로 이 클래스에 적용시켰다는 뜻 -->
+<!-- 	<bean class="com.choa.aspect.Trip" id="trip" /> -->
+	<!-- AOP 설정하기 -->
+<!-- 	<aop:config> -->
+<!-- 	<aop:aspect id="cardAspect" ref="cardCheck"> 공통관심 사항 카드체크 -->
+	
+<!-- 	<aop:pointcut expression="execution(* com.choa.aspect..Transport.*(..))" id="trans"/> -->
+<!-- 	              표현식                              트렌스포트.java 안에 모든 메서드() 매개변수 없는것 -->
+<!-- 													 (..) 매개변수가 있든 없든 몇개든 상관없다는 식 -->
+<!--	.. : 하위의 모든 디렉토리 
+		*() : 하위의 모든 메서드
+ 		(..): 있든 없든 상관없이 모든 매개변수
+	 -->
+	
+	 <!-- 전 후로 다 실행하기 위해서 around -->
+	<!-- 핵심기능 안에 어떤 메서드를 적용시킬 것인지 쓰자 --> 
+<!-- 	<aop:around method="check" pointcut-ref="trans"/> -->
+<!-- 	</aop:aspect> -->
+<!--@@@@@@@@@@@@@@@@@@@@@@@  새로운 aspect @@@@@@@@@@@@@@@@@@@@@@@@@ -->
+<!-- 	<aop:aspect id="cardReserve" ref="cardCheck"> -->
+<!-- 	<aop:pointcut expression="execution(* com.choa.aspect..Trip.*(..))" id="reserve"/> -->
+<!-- 	<aop:before method="reservation" pointcut-ref="reserve"/> -->
+<!-- 	</aop:aspect> -->
+<!-- 	</aop:config> -->
+	
+	<!-- AOP 전용 Annotation 스캔 자동으로 한다. -->
+
 	<!-- Root Context: defines shared resources visible to all other web components -->
+		
+		<!-- myBatis.property 파일  -->
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="propertyPlaceholderConfigurer">
+			<property name="locations">
+			<value>classpath:mybatis/myBatis.properties</value> <!-- 파일의 경로를 적자 -->
+			</property> <!-- value에 적어도 되며 태그 사이에 적어도 벨류값 적용됨 -->
+		</bean>
+
+		<!-- datasource -->
+		<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">	
+
+		<property name="username" value="${jdbc.user}"></property> <!-- ${키값 넣으면 됨} -->
+		<property name="password" value="${jdbc.pw}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+	</bean>
+		
+		
+		
+		<!-- MYbatis 코드 -->
+	
+	<!-- xml에 하는 이유? api를 이용하기 때문에 소스코드를 못 열어서 -->
+	<!-- 커넥션 객체와 SQl을 섞어서 DB 와 Spring 연결 -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactoryBean">
+	<!-- setter 를 이용하여 데이터 집어넣기 -->
+	<property name="dataSource" ref="dataSource"></property>
+	<!-- mappers 폴더에 ??Mapper.xml 이라고 만들어놓자. -->
+	<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
+	<!--  myBatis Config xml 설정파일 연결 -->
+	<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
+	</bean>
+	<!-- Mybatis 랑 소스코드 연결해주는 코드 -->
+<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession" > <!-- 빨간줄이유:생성자만들어달라 -->
+ <!-- 생성자를 이용해 ref 로 연결 -->
+ <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"></constructor-arg>
+	
+</bean>	
+
+		<!-- 파일 업로드 객체 생성 -->
+		<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver" >
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!-- 추후에 사이즈 알아서 잡아주기 -->
+		</bean>
+		
 		
 </beans>
